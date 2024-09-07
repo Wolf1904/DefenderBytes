@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{c53fabda-b3ea-48e1-859f-0928ddaae850}</ProjectGuid>
+    <RootNamespace>DefenderBytes</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SHA256.java">
+      <Filter>Source Files</Filter>
+    </Compile>
+    <Compile Include="Source.java">
+      <Filter>Source Files</Filter>
+    </Compile>
+  </ItemGroup>
+
+</Project>

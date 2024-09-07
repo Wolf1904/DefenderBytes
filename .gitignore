@@ -1,0 +1,19 @@
+# Compiled class files
+*.class
+
+# Package files
+*.war
+*.ear
+
+# Log files
+*.log
+*.out
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE settings files
+.idea/
+.vscode/
+.settings/
