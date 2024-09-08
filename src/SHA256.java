@@ -11,9 +11,9 @@ import java.util.Arrays;
 // Or use SHA256.hash("some_string") or SHA256.getSHA256Checksum("some_file") for quick scanlogss.
 public class SHA256 {
 
-    private static final int Block_Size = 64; // 64 bytes
+    private static final int BLOCK_SIZE = 64; // 64 bytes
     private static final long[] state = new long[8]; // Digest so far (64-bit)
-    private static final byte[] buffer = new byte[Block_Size]; // Bytes that didn't fit in the last 64 byte chunk
+    private static final byte[] buffer = new byte[BLOCK_SIZE]; // Bytes that didn't fit in the last 64 byte chunk
     private static final long[] count = new long[2]; // 64-bit counter for number of bits (low, high)
     private byte[] digest = new byte[32]; // The final scanlogs (32 bytes for SHA-256)
 
@@ -63,8 +63,8 @@ public class SHA256 {
             System.arraycopy(input, 0, buffer, index, partLen);
             transform(buffer);
 
-            for (i = partLen; i + Block_Size - 1 < length; i += Block_Size) {
-                byte[] block = Arrays.copyOfRange(input, i, i + Block_Size);
+            for (i = partLen; i + BLOCK_SIZE - 1 < length; i += BLOCK_SIZE) {
+                byte[] block = Arrays.copyOfRange(input, i, i + BLOCK_SIZE);
                 transform(block);
             }
 
