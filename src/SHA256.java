@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 // A class for calculating SHA-256 hashes of strings, byte arrays, or files.
@@ -12,9 +11,9 @@ import java.util.Arrays;
 // Or use SHA256.hash("some_string") or SHA256.getSHA256Checksum("some_file") for quick scanlogss.
 public class SHA256 {
 
-    private static final int blockSize = 64; // 64 bytes
+    private static final int Block_Size = 64; // 64 bytes
     private static final long[] state = new long[8]; // Digest so far (64-bit)
-    private static final byte[] buffer = new byte[blockSize]; // Bytes that didn't fit in the last 64 byte chunk
+    private static final byte[] buffer = new byte[Block_Size]; // Bytes that didn't fit in the last 64 byte chunk
     private static final long[] count = new long[2]; // 64-bit counter for number of bits (low, high)
     private byte[] digest = new byte[32]; // The final scanlogs (32 bytes for SHA-256)
 
@@ -64,8 +63,8 @@ public class SHA256 {
             System.arraycopy(input, 0, buffer, index, partLen);
             transform(buffer);
 
-            for (i = partLen; i + blockSize - 1 < length; i += blockSize) {
-                byte[] block = Arrays.copyOfRange(input, i, i + blockSize);
+            for (i = partLen; i + Block_Size - 1 < length; i += Block_Size) {
+                byte[] block = Arrays.copyOfRange(input, i, i + Block_Size);
                 transform(block);
             }
 
@@ -121,12 +120,12 @@ public class SHA256 {
         long h = state[7];
 
         for (int i = 0; i < 64; i++) {
-            long S1 = rotateRight(e, 6) ^ rotateRight(e, 11) ^ rotateRight(e, 25);
+            long s1 = rotateRight(e, 6) ^ rotateRight(e, 11) ^ rotateRight(e, 25);
             long ch = (e & f) ^ (~e & g);
-            long temp1 = h + S1 + ch + K[i] + w[i];
-            long S0 = rotateRight(a, 2) ^ rotateRight(a, 13) ^ rotateRight(a, 22);
+            long temp1 = h + s1 + ch + K[i] + w[i];
+            long s0 = rotateRight(a, 2) ^ rotateRight(a, 13) ^ rotateRight(a, 22);
             long maj = (a & b) ^ (a & c) ^ (b & c);
-            long temp2 = S0 + maj;
+            long temp2 = s0 + maj;
 
             h = g;
             g = f;

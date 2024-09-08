@@ -10,7 +10,7 @@
 //     private static final String INFECTED_FILE = "text_files/infected.txt";
 //     private static final String HASH_CODES_FILE = "text_files/hashcodes.txt";
 //     private JFrame frame;
-//     private JLabel pathLabel, SHA256Label, statusLabel, scanningLabel;
+//     private JLabel pathLabel, LabelSHA256, statusLabel, scanningLabel;
 //     private JTextArea logArea;
 //     private Set<String> hashSet;
 
@@ -86,9 +86,9 @@
 //         frame.add(pathLabel, gbc);
 
 //         // SHA256 Label
-//         SHA256Label = new JLabel("SHA256: ...");
+//         LabelSHA256 = new JLabel("SHA256: ...");
 //         gbc.gridy = 3;
-//         frame.add(SHA256Label, gbc);
+//         frame.add(LabelSHA256, gbc);
 
 //         // Status Label
 //         statusLabel = new JLabel("Status: N/A");
@@ -127,8 +127,8 @@
 //                 scanDirectory(selectedFile.toPath());
 //             } else {
 //                 try {
-//                     String SHA256Value = SHA256.getSHA256Checksum(selectedFile.getAbsolutePath());
-//                     scanFile(selectedFile.getAbsolutePath(), SHA256Value);
+//                     String ValueSHA256 = SHA256.getSHA256Checksum(selectedFile.getAbsolutePath());
+//                     scanFile(selectedFile.getAbsolutePath(), ValueSHA256);
 //                 } catch (Exception e) {
 //                     e.printStackTrace();
 //                 }
@@ -136,18 +136,18 @@
 //         }
 //     }
 
-//     private void scanFile(String filePath, String SHA256Value) {
-//         boolean found = hashSet.contains(SHA256Value);
+//     private void scanFile(String filePath, String ValueSHA256) {
+//         boolean found = hashSet.contains(ValueSHA256);
 
 //         pathLabel.setText("Path: " + filePath);
-//         SHA256Label.setText("SHA256: " + SHA256Value);
+//         LabelSHA256.setText("SHA256: " + ValueSHA256);
 //         statusLabel.setText("Status: " + (found ? "Infected" : "Clean"));
 //         scanningLabel.setText("Scanning: Done");
 
 //         // Log scan details in text area
-//         logArea.append("File: " + filePath + " | SHA256: " + SHA256Value + " | Status: " + (found ? "Infected" : "Clean") + "\n");
+//         logArea.append("File: " + filePath + " | SHA256: " + ValueSHA256 + " | Status: " + (found ? "Infected" : "Clean") + "\n");
 
-//         saveScanLogs(filePath, SHA256Value, found ? "Infected" : "Clean");
+//         saveScanLogs(filePath, ValueSHA256, found ? "Infected" : "Clean");
 //     }
 
 //     private void scanDirectory(Path directoryPath) {
@@ -156,8 +156,8 @@
 //                 .filter(Files::isRegularFile)
 //                 .forEach(path -> {
 //                     try {
-//                         String SHA256Value = SHA256.getSHA256Checksum(path.toString());
-//                         scanFile(path.toString(), SHA256Value);
+//                         String ValueSHA256 = SHA256.getSHA256Checksum(path.toString());
+//                         scanFile(path.toString(), ValueSHA256);
 //                     } catch (Exception e) {
 //                         e.printStackTrace();
 //                     }
@@ -175,8 +175,8 @@
 //                 .filter(Files::isRegularFile)
 //                 .forEach(path -> {
 //                     try {
-//                         String SHA256Value = SHA256.getSHA256Checksum(path.toString());
-//                         scanFile(path.toString(), SHA256Value);
+//                         String ValueSHA256 = SHA256.getSHA256Checksum(path.toString());
+//                         scanFile(path.toString(), ValueSHA256);
 //                     } catch (Exception e) {
 //                         e.printStackTrace();
 //                     }
@@ -200,16 +200,16 @@
 //         return hashSet;
 //     }
 
-//     private void saveScanLogs(String filePath, String SHA256Value, String status) {
+//     private void saveScanLogs(String filePath, String ValueSHA256, String status) {
 //         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCANLOGS_FILE, true))) {
-//             writer.write(filePath + " " + SHA256Value + " " + status + "\n");
+//             writer.write(filePath + " " + ValueSHA256 + " " + status + "\n");
 //         } catch (IOException e) {
 //             e.printStackTrace();
 //         }
 
 //         if (status.equals("Infected")) {
 //             try (BufferedWriter infectedWriter = new BufferedWriter(new FileWriter(INFECTED_FILE, true))) {
-//                 infectedWriter.write(filePath + " " + SHA256Value + " " + status + "\n");
+//                 infectedWriter.write(filePath + " " + ValueSHA256 + " " + status + "\n");
 //             } catch (IOException e) {
 //                 e.printStackTrace();
 //             }
@@ -229,7 +229,10 @@ public class Source {
     private static final String INFECTED_FILE = "text_files/infected.txt";
     private static final String HASH_CODES_FILE = "text_files/hashcodes.txt";
     private JFrame frame;
-    private JLabel pathLabel, SHA256Label, statusLabel, scanningLabel;
+    private JLabel pathLabel;
+    private JLabel LabelSHA256;
+    private JLabel statusLabel;
+    private JLabel scanningLabel;
     private JTextArea logArea;
     private Set<String> hashSet;
 
@@ -305,9 +308,9 @@ public class Source {
         frame.add(pathLabel, gbc);
 
         // SHA256 Label
-        SHA256Label = new JLabel("SHA256: ...");
+        LabelSHA256 = new JLabel("SHA256: ...");
         gbc.gridy = 3;
-        frame.add(SHA256Label, gbc);
+        frame.add(LabelSHA256, gbc);
 
         // Status Label
         statusLabel = new JLabel("Status: N/A");
@@ -349,8 +352,8 @@ public class Source {
                 scanDirectory(selectedFile.toPath());
             } else {
                 try {
-                    String SHA256Value = SHA256.getSHA256Checksum(selectedFile.getAbsolutePath());
-                    scanFile(selectedFile.getAbsolutePath(), SHA256Value);
+                    String ValueSHA256 = SHA256.getSHA256Checksum(selectedFile.getAbsolutePath());
+                    scanFile(selectedFile.getAbsolutePath(), ValueSHA256);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -358,18 +361,18 @@ public class Source {
         }
     }
 
-    private void scanFile(String filePath, String SHA256Value) {
-        boolean found = hashSet.contains(SHA256Value);
+    private void scanFile(String filePath, String ValueSHA256) {
+        boolean found = hashSet.contains(ValueSHA256);
 
         pathLabel.setText("Path: " + filePath);
-        SHA256Label.setText("SHA256: " + SHA256Value);
+        LabelSHA256.setText("SHA256: " + ValueSHA256);
         statusLabel.setText("Status: " + (found ? "Infected" : "Clean"));
         scanningLabel.setText("Scanning: Done");
 
         // Log scan details in text area
-        logArea.append("File: " + filePath + " | SHA256: " + SHA256Value + " | Status: " + (found ? "Infected" : "Clean") + "\n");
+        logArea.append("File: " + filePath + " | SHA256: " + ValueSHA256 + " | Status: " + (found ? "Infected" : "Clean") + "\n");
 
-        saveScanLogs(filePath, SHA256Value, found ? "Infected" : "Clean");
+        saveScanLogs(filePath, ValueSHA256, found ? "Infected" : "Clean");
     }
 
     private void scanDirectory(Path directoryPath) {
@@ -378,8 +381,8 @@ public class Source {
                 .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
-                        String SHA256Value = SHA256.getSHA256Checksum(path.toString());
-                        scanFile(path.toString(), SHA256Value);
+                        String ValueSHA256 = SHA256.getSHA256Checksum(path.toString());
+                        scanFile(path.toString(), ValueSHA256);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -397,8 +400,8 @@ public class Source {
                 .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
-                        String SHA256Value = SHA256.getSHA256Checksum(path.toString());
-                        scanFile(path.toString(), SHA256Value);
+                        String ValueSHA256 = SHA256.getSHA256Checksum(path.toString());
+                        scanFile(path.toString(), ValueSHA256);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -422,16 +425,16 @@ public class Source {
         return hashSet;
     }
 
-    private void saveScanLogs(String filePath, String SHA256Value, String status) {
+    private void saveScanLogs(String filePath, String ValueSHA256, String status) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCANLOGS_FILE, true))) {
-            writer.write(filePath + " " + SHA256Value + " " + status + "\n");
+            writer.write(filePath + " " + ValueSHA256 + " " + status + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if (status.equals("Infected")) {
             try (BufferedWriter infectedWriter = new BufferedWriter(new FileWriter(INFECTED_FILE, true))) {
-                infectedWriter.write(filePath + " " + SHA256Value + " " + status + "\n");
+                infectedWriter.write(filePath + " " + ValueSHA256 + " " + status + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
