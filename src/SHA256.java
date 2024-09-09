@@ -12,9 +12,9 @@ import java.util.Arrays;
 public class SHA256 {
 
     private static final int BLOCK_SIZE = 64; // 64 bytes
-    private static final long[] state = new long[8]; // Digest so far (64-bit)
-    private static final byte[] buffer = new byte[BLOCK_SIZE]; // Bytes that didn't fit in the last 64 byte chunk
-    private static final long[] count = new long[2]; // 64-bit counter for number of bits (low, high)
+    private final long[] state = new long[8]; // Digest so far (64-bit)
+    private final byte[] buffer = new byte[BLOCK_SIZE]; // Bytes that didn't fit in the last 64 byte chunk
+    private final long[] count = new long[2]; // 64-bit counter for number of bits (low, high)
     private byte[] digest = new byte[32]; // The final scanlogs (32 bytes for SHA-256)
 
     private boolean finalized;
