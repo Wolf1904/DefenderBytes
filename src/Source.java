@@ -13,7 +13,6 @@ public class Source {
     private static final String STATUS_CLEAN = "Clean";
     private static final String SCANNING_DONE = "Scanning: Done";
 
-    private JFrame frame;
     private JLabel pathLabel;
     private JLabel labelSHA256;
     private JLabel statusLabel;
@@ -27,10 +26,10 @@ public class Source {
 
     private void createAndShowGUI() {
         // Create frame as a local variable
-        JFrame frame = new JFrame("DefenderBytes Antivirus Scanner");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  // Use WindowConstants for EXIT_ON_CLOSE
-        frame.setSize(1000, 800);
-        frame.setLayout(new GridBagLayout());
+        JFrame mainFrame = new JFrame("DefenderBytes Antivirus Scanner");
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.setSize(1000, 800);
+        mainFrame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Set margins
     
@@ -41,7 +40,7 @@ public class Source {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 4;
-        frame.add(titleLabel, gbc);
+        mainFrame.add(titleLabel, gbc);
     
         // Scan Button
         JButton scanButton = new JButton("Scan");
@@ -50,14 +49,14 @@ public class Source {
         gbc.gridwidth = 1;
         scanButton.setPreferredSize(new Dimension(120, 40));
         scanButton.addActionListener(e -> onScan());
-        frame.add(scanButton, gbc);
+        mainFrame.add(scanButton, gbc);
     
         // Full Scan Button
         JButton fullScanButton = new JButton("Full Scan");
         gbc.gridx = 1;
         fullScanButton.setPreferredSize(new Dimension(120, 40));
         fullScanButton.addActionListener(e -> new Thread(this::scanAll).start());
-        frame.add(fullScanButton, gbc);
+        mainFrame.add(fullScanButton, gbc);
     
         // Scan Logs Button
         JButton scanlogsButton = new JButton("Scan Logs");
@@ -70,7 +69,7 @@ public class Source {
                 ex.printStackTrace();
             }
         });
-        frame.add(scanlogsButton, gbc);
+        mainFrame.add(scanlogsButton, gbc);
     
         // Infected Files Button
         JButton infectedButton = new JButton("Infected Files");
@@ -83,29 +82,29 @@ public class Source {
                 ex.printStackTrace();
             }
         });
-        frame.add(infectedButton, gbc);
+        mainFrame.add(infectedButton, gbc);
     
         // Path Label
         pathLabel = new JLabel("Path: ...");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
-        frame.add(pathLabel, gbc);
+        mainFrame.add(pathLabel, gbc);
     
         // SHA256 Label
         labelSHA256 = new JLabel("SHA256: ...");
         gbc.gridy = 3;
-        frame.add(labelSHA256, gbc);
+        mainFrame.add(labelSHA256, gbc);
     
         // Status Label
         statusLabel = new JLabel("Status: N/A");
         gbc.gridy = 4;
-        frame.add(statusLabel, gbc);
+        mainFrame.add(statusLabel, gbc);
     
         // Scanning Status Label
         scanningLabel = new JLabel("Scanning: ...");
         gbc.gridy = 5;
-        frame.add(scanningLabel, gbc);
+        mainFrame.add(scanningLabel, gbc);
     
         // Log Area (Text Area for logs)
         logArea = new JTextArea(10, 40);  // 10 rows and 40 columns
@@ -115,7 +114,7 @@ public class Source {
         gbc.gridy = 6;
         gbc.gridwidth = 4;
         gbc.fill = GridBagConstraints.BOTH;  // Make it fill both vertically and horizontally
-        frame.add(scrollPane, gbc);
+        mainFrame.add(scrollPane, gbc);
     
         // Load hash codes into a Set
         hashSet = loadHashes(HASH_CODES_FILE);
@@ -124,7 +123,7 @@ public class Source {
         Runtime.getRuntime().addShutdownHook(new Thread(this::clearScanLogs));
     
         // Show frame
-        frame.setVisible(true);
+        mainFrame.setVisible(true);
     }
     
 
