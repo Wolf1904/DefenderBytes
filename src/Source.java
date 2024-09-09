@@ -26,23 +26,23 @@ public class Source {
     }
 
     private void createAndShowGUI() {
-        // Create frame
-        frame = new JFrame("DefenderBytes Antivirus Scanner");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Create frame as a local variable
+        JFrame frame = new JFrame("DefenderBytes Antivirus Scanner");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  // Use WindowConstants for EXIT_ON_CLOSE
         frame.setSize(1000, 800);
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Set margins
-
+    
         // Title Label
         JLabel titleLabel = new JLabel("DefenderBytes Antivirus Scanner");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 4;
         frame.add(titleLabel, gbc);
-
+    
         // Scan Button
         JButton scanButton = new JButton("Scan");
         gbc.gridx = 0;
@@ -51,14 +51,14 @@ public class Source {
         scanButton.setPreferredSize(new Dimension(120, 40));
         scanButton.addActionListener(e -> onScan());
         frame.add(scanButton, gbc);
-
+    
         // Full Scan Button
         JButton fullScanButton = new JButton("Full Scan");
         gbc.gridx = 1;
         fullScanButton.setPreferredSize(new Dimension(120, 40));
         fullScanButton.addActionListener(e -> new Thread(this::scanAll).start());
         frame.add(fullScanButton, gbc);
-
+    
         // Scan Logs Button
         JButton scanlogsButton = new JButton("Scan Logs");
         gbc.gridx = 2;
@@ -71,7 +71,7 @@ public class Source {
             }
         });
         frame.add(scanlogsButton, gbc);
-
+    
         // Infected Files Button
         JButton infectedButton = new JButton("Infected Files");
         gbc.gridx = 3;
@@ -84,29 +84,29 @@ public class Source {
             }
         });
         frame.add(infectedButton, gbc);
-
+    
         // Path Label
         pathLabel = new JLabel("Path: ...");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 4;
         frame.add(pathLabel, gbc);
-
+    
         // SHA256 Label
         labelSHA256 = new JLabel("SHA256: ...");
         gbc.gridy = 3;
         frame.add(labelSHA256, gbc);
-
+    
         // Status Label
         statusLabel = new JLabel("Status: N/A");
         gbc.gridy = 4;
         frame.add(statusLabel, gbc);
-
+    
         // Scanning Status Label
         scanningLabel = new JLabel("Scanning: ...");
         gbc.gridy = 5;
         frame.add(scanningLabel, gbc);
-
+    
         // Log Area (Text Area for logs)
         logArea = new JTextArea(10, 40);  // 10 rows and 40 columns
         logArea.setEditable(false);  // Set to not editable by the user
@@ -116,16 +116,17 @@ public class Source {
         gbc.gridwidth = 4;
         gbc.fill = GridBagConstraints.BOTH;  // Make it fill both vertically and horizontally
         frame.add(scrollPane, gbc);
-
+    
         // Load hash codes into a Set
         hashSet = loadHashes(HASH_CODES_FILE);
-
+    
         // Add shutdown hook to clean scanlogs.txt
         Runtime.getRuntime().addShutdownHook(new Thread(this::clearScanLogs));
-
+    
         // Show frame
         frame.setVisible(true);
     }
+    
 
     private void onScan() {
         JFileChooser fileChooser = new JFileChooser();
