@@ -18,7 +18,6 @@ Prerequisites
 -------------
 
 - Java 11 or later
-- [Gradle](https://gradle.org/install/) (for building the project, if used)
 
 Project Structure
 ------------------
