@@ -201,21 +201,15 @@ public class SHA256 {
 
     // Static method to calculate SHA-256 checksum of a file
     public static byte[] createChecksum(String filename) throws Exception {
-        InputStream fis = new FileInputStream(filename);
-
-        byte[] buffer = new byte[1024];
-        MessageDigest complete = MessageDigest.getInstance("SHA-256");
-        int numRead;
-
-        do {
-            numRead = fis.read(buffer);
-            if (numRead > 0) {
+        try (InputStream fis = new FileInputStream(filename)) {
+            byte[] buffer = new byte[1024];
+            MessageDigest complete = MessageDigest.getInstance("SHA-256");
+            int numRead;
+            while ((numRead = fis.read(buffer)) != -1) {
                 complete.update(buffer, 0, numRead);
             }
-        } while (numRead != -1);
-
-        fis.close();
-        return complete.digest();
+            return complete.digest();
+        }
     }
 
     // Static method to get the SHA-256 checksum of a file as a hex string
