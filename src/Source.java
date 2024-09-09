@@ -198,17 +198,18 @@ public class Source {
     }
 
     private Set<String> loadHashes(String filePath) {
-        Set<String> hashSet = new HashSet<>();
+        Set<String> loadedHashes = new HashSet<>();  // Renamed variable
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                hashSet.add(line.trim());
+                loadedHashes.add(line.trim());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return hashSet;
+        return loadedHashes;
     }
+    
 
     private void saveScanLogs(String filePath, String valueSHA256, String status) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCANLOGS_FILE, true))) {
