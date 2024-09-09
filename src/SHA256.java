@@ -182,14 +182,14 @@ public class SHA256 {
     // Decode bytes to long array
     private void decode(long[] output, byte[] input, int length) {
         for (int i = 0, j = 0; j < length; i++, j += 8) {
-            output[i] = ((long) (input[j] & 0xff)) |
-                        ((long) (input[j + 1] & 0xff) << 8) |
-                        ((long) (input[j + 2] & 0xff) << 16) |
-                        ((long) (input[j + 3] & 0xff) << 24) |
-                        ((long) (input[j + 4] & 0xff) << 32) |
-                        ((long) (input[j + 5] & 0xff) << 40) |
-                        ((long) (input[j + 6] & 0xff) << 48) |
-                        ((long) (input[j + 7] & 0xff) << 56);
+            output[i] = ((input[j] & 0xff)) |
+                        ((input[j + 1] & 0xff) << 8) |
+                        ((input[j + 2] & 0xff) << 16) |
+                        ((input[j + 3] & 0xff) << 24) |
+                        ((input[j + 4] & 0xff) << 32) |
+                        ((input[j + 5] & 0xff) << 40) |
+                        ((input[j + 6] & 0xff) << 48) |
+                        ((input[j + 7] & 0xff) << 56);
         }
     }
 
