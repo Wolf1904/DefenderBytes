@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class Source {
     private static final String SCANLOGS_FILE = "text_files/scanlogs.txt";
@@ -162,8 +161,9 @@ public class Source {
     }
 
     private void scanDirectory(Path directoryPath) {
-        try(Stream<Path> paths = Files.walk(directoryPath)) {
-            paths.filter(Files::isRegularFile)
+        try {
+            Files.walk(directoryPath)
+                .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
                         String valueSHA256 = SHA256.getSHA256Checksum(path.toString());
@@ -180,8 +180,9 @@ public class Source {
 
     private void scanAll() {
         Path startPath = System.getProperty("os.name").startsWith("Windows") ? Paths.get("C:\\") : Paths.get("/");
-        try(Stream<Path> paths = Files.walk(startPath)) {
-            paths.filter(Files::isRegularFile)
+        try {
+            Files.walk(startPath)
+                .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
                         String valueSHA256 = SHA256.getSHA256Checksum(path.toString());
