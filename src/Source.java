@@ -9,6 +9,10 @@ public class Source {
     private static final String SCANLOGS_FILE = "text_files/scanlogs.txt";
     private static final String INFECTED_FILE = "text_files/infected.txt";
     private static final String HASH_CODES_FILE = "text_files/hashcodes.txt";
+    private static final String STATUS_INFECTED = "Infected";
+    private static final String STATUS_CLEAN = "Clean";
+    private static final String SCANNING_DONE = "Scanning: Done";
+
     private JFrame frame;
     private JLabel pathLabel;
     private JLabel labelSHA256;
@@ -147,13 +151,13 @@ public class Source {
 
         pathLabel.setText("Path: " + filePath);
         labelSHA256.setText("SHA256: " + valueSHA256);
-        statusLabel.setText("Status: " + (found ? "Infected" : "Clean"));
-        scanningLabel.setText("Scanning: Done");
+        statusLabel.setText("Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN));
+        scanningLabel.setText(SCANNING_DONE);
 
         // Log scan details in text area
-        logArea.append("File: " + filePath + " | SHA256: " + valueSHA256 + " | Status: " + (found ? "Infected" : "Clean") + "\n");
+        logArea.append("File: " + filePath + " | SHA256: " + valueSHA256 + " | Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN) + "\n");
 
-        saveScanLogs(filePath, valueSHA256, found ? "Infected" : "Clean");
+        saveScanLogs(filePath, valueSHA256, found ? STATUS_INFECTED : STATUS_CLEAN);
     }
 
     private void scanDirectory(Path directoryPath) {
@@ -168,7 +172,7 @@ public class Source {
                         e.printStackTrace();
                     }
                 });
-            scanningLabel.setText("Scanning: Done");
+            scanningLabel.setText(SCANNING_DONE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,7 +191,7 @@ public class Source {
                         e.printStackTrace();
                     }
                 });
-            scanningLabel.setText("Scanning: Done");
+            scanningLabel.setText(SCANNING_DONE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -213,7 +217,7 @@ public class Source {
             e.printStackTrace();
         }
 
-        if (status.equals("Infected")) {
+        if (status.equals(STATUS_INFECTED)) {
             try (BufferedWriter infectedWriter = new BufferedWriter(new FileWriter(INFECTED_FILE, true))) {
                 infectedWriter.write(filePath + " " + valueSHA256 + " " + status + "\n");
             } catch (IOException e) {
