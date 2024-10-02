@@ -3,7 +3,6 @@ package main.java;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 // A class for calculating MD5 hashes of strings, byte arrays, or files.
@@ -14,9 +13,9 @@ import java.util.Arrays;
 // Or use MD5.hash("some_string") or MD5.getMD5Checksum("some_file") for quick results.
 public class MD5 {
 
-    private static final int blockSize = 64; // 64 bytes
+    private static final int BlockSize = 64; // 64 bytes
     private static final int[] state = new int[4]; // Digest so far
-    private static final byte[] buffer = new byte[blockSize]; // Bytes that didn't fit in the last 64 byte chunk
+    private static final byte[] buffer = new byte[BlockSize]; // Bytes that didn't fit in the last 64 byte chunk
     private static final int[] count = new int[2]; // 64-bit counter for number of bits (low, high)
     private byte[] digest = new byte[16]; // The final result, removed final
 
@@ -61,8 +60,8 @@ public class MD5 {
             System.arraycopy(input, 0, buffer, index, partLen);
             transform(buffer);
 
-            for (i = partLen; i + blockSize - 1 < length; i += blockSize) {
-                byte[] block = Arrays.copyOfRange(input, i, i + blockSize);
+            for (i = partLen; i + BlockSize - 1 < length; i += BlockSize) {
+                byte[] block = Arrays.copyOfRange(input, i, i + BlockSize);
                 transform(block);
             }
 
@@ -114,9 +113,9 @@ public class MD5 {
         int d = state[3];
 
         // Round 1
-        a = FF(a, b, c, d, x[0], 7, 0xd76aa478);
-        d = FF(d, a, b, c, x[1], 12, 0xe8c7b756);
-        // (Continue similarly for all MD5 transformations using FF, GG, HH, II)
+        a = ffTransform(a, b, c, d, x[0], 7, 0xd76aa478);
+        d = ffTransform(d, a, b, c, x[1], 12, 0xe8c7b756);
+        // (Continue similarly for all MD5 transformations using ffTransform, GG, HH, II)
 
         state[0] += a;
         state[1] += b;
@@ -125,19 +124,19 @@ public class MD5 {
     }
 
     // MD5 helper functions
-    private static int F(int x, int y, int z) {
+    private static int f(int x, int y, int z) {
         return (x & y) | (~x & z);
     }
 
-    private static int G(int x, int y, int z) {
+    private static int g(int x, int y, int z) {
         return (x & z) | (y & ~z);
     }
 
-    private static int H(int x, int y, int z) {
+    private static int h(int x, int y, int z) {
         return x ^ y ^ z;
     }
 
-    private static int I(int x, int y, int z) {
+    private static int i(int x, int y, int z) {
         return y ^ (x | ~z);
     }
 
@@ -145,8 +144,8 @@ public class MD5 {
         return (x << n) | (x >>> (32 - n));
     }
 
-    private static int FF(int a, int b, int c, int d, int x, int s, int ac) {
-        a += F(b, c, d) + x + ac;
+    private static int ffTransform(int a, int b, int c, int d, int x, int s, int ac) {
+        a += f(b, c, d) + x + ac;
         a = rotateLeft(a, s);
         a += b;
         return a;
@@ -204,7 +203,7 @@ public class MD5 {
 
     // Static helper for quick MD5 hash
     public static String hash(String text) {
-        MD5 MD5 = new MD5(text);
-        return MD5.getHexDigest();
+        MD5 md5 = new MD5(text);
+        return md5.getHexDigest();
     }
 }
