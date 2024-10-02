@@ -13,9 +13,9 @@ import java.util.Arrays;
 // Or use MD5.hash("some_string") or MD5.getMD5Checksum("some_file") for quick results.
 public class MD5 {
 
-    private static final int BlockSize = 64; // 64 bytes
+    private static final int BLOCK_SIZE = 64; // 64 bytes
     private static final int[] state = new int[4]; // Digest so far
-    private static final byte[] buffer = new byte[BlockSize]; // Bytes that didn't fit in the last 64 byte chunk
+    private static final byte[] buffer = new byte[BLOCK_SIZE]; // Bytes that didn't fit in the last 64 byte chunk
     private static final int[] count = new int[2]; // 64-bit counter for number of bits (low, high)
     private byte[] digest = new byte[16]; // The final result, removed final
 
@@ -60,8 +60,8 @@ public class MD5 {
             System.arraycopy(input, 0, buffer, index, partLen);
             transform(buffer);
 
-            for (i = partLen; i + BlockSize - 1 < length; i += BlockSize) {
-                byte[] block = Arrays.copyOfRange(input, i, i + BlockSize);
+            for (i = partLen; i + BLOCK_SIZE - 1 < length; i += BLOCK_SIZE) {
+                byte[] block = Arrays.copyOfRange(input, i, i + BLOCK_SIZE);
                 transform(block);
             }
 
