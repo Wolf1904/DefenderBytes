@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="SHA256.java">
+    <Compile Include="MD5.java">
       <Filter>Source Files</Filter>
     </Compile>
     <Compile Include="Source.java">

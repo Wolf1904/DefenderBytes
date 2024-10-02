@@ -1,3 +1,4 @@
+// package main.java;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -14,7 +15,7 @@ public class Source {
     private static final String SCANNING_DONE = "Scanning: Done";
 
     private JLabel pathLabel;
-    private JLabel labelSHA256;
+    private JLabel labelMD5;
     private JLabel statusLabel;
     private JLabel scanningLabel;
     private JTextArea logArea;
@@ -91,10 +92,10 @@ public class Source {
         gbc.gridwidth = 4;
         mainFrame.add(pathLabel, gbc);
     
-        // SHA256 Label
-        labelSHA256 = new JLabel("SHA256: ...");
+        // MD5 Label
+        labelMD5 = new JLabel("MD5: ...");
         gbc.gridy = 3;
-        mainFrame.add(labelSHA256, gbc);
+        mainFrame.add(labelMD5, gbc);
     
         // Status Label
         statusLabel = new JLabel("Status: N/A");
@@ -137,8 +138,8 @@ public class Source {
                 scanDirectory(selectedFile.toPath());
             } else {
                 try {
-                    String valueSHA256 = SHA256.getSHA256Checksum(selectedFile.getAbsolutePath());
-                    scanFile(selectedFile.getAbsolutePath(), valueSHA256);
+                    String valueMD5 = MD5.getMD5Checksum(selectedFile.getAbsolutePath());
+                    scanFile(selectedFile.getAbsolutePath(), valueMD5);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,18 +147,18 @@ public class Source {
         }
     }
 
-    private void scanFile(String filePath, String valueSHA256) {
-        boolean found = hashSet.contains(valueSHA256);
+    private void scanFile(String filePath, String valueMD5) {
+        boolean found = hashSet.contains(valueMD5);
 
         pathLabel.setText("Path: " + filePath);
-        labelSHA256.setText("SHA256: " + valueSHA256);
+        labelMD5.setText("MD5: " + valueMD5);
         statusLabel.setText("Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN));
         scanningLabel.setText(SCANNING_DONE);
 
         // Log scan details in text area
-        logArea.append("File: " + filePath + " | SHA256: " + valueSHA256 + " | Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN) + "\n");
+        logArea.append("File: " + filePath + " | MD5: " + valueMD5 + " | Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN) + "\n");
 
-        saveScanLogs(filePath, valueSHA256, found ? STATUS_INFECTED : STATUS_CLEAN);
+        saveScanLogs(filePath, valueMD5, found ? STATUS_INFECTED : STATUS_CLEAN);
     }
 
     private void scanDirectory(Path directoryPath) {
@@ -166,8 +167,8 @@ public class Source {
                 .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
-                        String valueSHA256 = SHA256.getSHA256Checksum(path.toString());
-                        scanFile(path.toString(), valueSHA256);
+                        String valueMD5 = MD5.getMD5Checksum(path.toString());
+                        scanFile(path.toString(), valueMD5);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -185,8 +186,8 @@ public class Source {
                 .filter(Files::isRegularFile)
                 .forEach(path -> {
                     try {
-                        String valueSHA256 = SHA256.getSHA256Checksum(path.toString());
-                        scanFile(path.toString(), valueSHA256);
+                        String valueMD5 = MD5.getMD5Checksum(path.toString());
+                        scanFile(path.toString(), valueMD5);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -211,16 +212,16 @@ public class Source {
     }
     
 
-    private void saveScanLogs(String filePath, String valueSHA256, String status) {
+    private void saveScanLogs(String filePath, String valueMD5, String status) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCANLOGS_FILE, true))) {
-            writer.write(filePath + " " + valueSHA256 + " " + status + "\n");
+            writer.write(filePath + " " + valueMD5 + " " + status + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if (status.equals(STATUS_INFECTED)) {
             try (BufferedWriter infectedWriter = new BufferedWriter(new FileWriter(INFECTED_FILE, true))) {
-                infectedWriter.write(filePath + " " + valueSHA256 + " " + status + "\n");
+                infectedWriter.write(filePath + " " + valueMD5 + " " + status + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }

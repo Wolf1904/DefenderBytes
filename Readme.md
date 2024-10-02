@@ -4,7 +4,7 @@ DefenderBytes Antivirus Scanner
 Overview
 ---------
 
-DefenderBytes is a simple antivirus scanner application developed in Java. It allows users to scan files and directories for known malware by checking their SHA256 hashes against a list of known malicious hash codes. The application features a graphical user interface (GUI) built with Swing, providing a user-friendly way to perform scans, view logs, and check infected files.
+DefenderBytes is a simple antivirus scanner application developed in Java. It allows users to scan files and directories for known malware by checking their MD5 hashes against a list of known malicious hash codes. The application features a graphical user interface (GUI) built with Swing, providing a user-friendly way to perform scans, view logs, and check infected files.
 
 Features
 --------
@@ -23,7 +23,7 @@ Project Structure
 ------------------
 
 - `Source.java`: The main application file containing the GUI and scanning logic.
-- `SHA256.java`: Utility class for calculating SHA256 checksums of files.
+- `MD5.java`: Utility class for calculating MD5 checksums of files.
 - `text_files/`:
   - `scanlogs.txt`: File where scan logs are saved.
   - `infected.txt`: File where detected infected files are listed.
@@ -64,7 +64,7 @@ Usage
 
 1. **Scan a File or Directory**
    - Click the "Scan" button to select a file or directory to scan.
-   - The application will display the results including the file path, SHA256 checksum, and infection status.
+   - The application will display the results including the file path, MD5 checksum, and infection status.
 
 2. **Full Scan**
    - Click the "Full Scan" button to start scanning the entire file system.

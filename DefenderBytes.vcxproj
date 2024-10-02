@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="SHA256.java" />
+    <Compile Include="MD5.java" />
     <Compile Include="Source.java" />
   </ItemGroup>
 
