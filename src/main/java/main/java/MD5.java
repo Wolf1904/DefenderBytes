@@ -1,4 +1,4 @@
-// package main.java;
+package main.java;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -167,7 +167,7 @@ public class MD5 {
 
     private void decode(int[] output, byte[] input, int length) {
         for (int i = 0, j = 0; j < length; i++, j += 4) {
-            output[i] = ((input[j] & 0xff)) |
+            output[i] = (input[j] & 0xff) |
                     ((input[j + 1] & 0xff) << 8) |
                     ((input[j + 2] & 0xff) << 16) |
                     ((input[j + 3] & 0xff) << 24);
