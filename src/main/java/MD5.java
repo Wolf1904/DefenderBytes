@@ -176,23 +176,22 @@ public class MD5 {
 
     // Static method to calculate MD5 checksum of a file
     public static byte[] createChecksum(String filename) throws Exception {
-        InputStream fis = new FileInputStream(filename);
-
-        byte[] buffer = new byte[1024];
-        MessageDigest complete = MessageDigest.getInstance("MD5");
-        int numRead;
-
-        do {
-            numRead = fis.read(buffer);
-            if (numRead > 0) {
+        // Use try-with-resources to ensure the InputStream is closed automatically
+        try (InputStream fis = new FileInputStream(filename)) {
+            byte[] buffer = new byte[1024];
+            MessageDigest complete = MessageDigest.getInstance("MD5");
+            int numRead;
+    
+            // Read the file and update the MessageDigest with the read bytes
+            while ((numRead = fis.read(buffer)) != -1) {
                 complete.update(buffer, 0, numRead);
             }
-        } while (numRead != -1);
-
-        fis.close();
-        return complete.digest();
+    
+            // Return the final computed digest (MD5 hash)
+            return complete.digest();
+        }
     }
-
+    
     // Static method to get the MD5 checksum of a file as a hex string
     public static String getMD5Checksum(String filename) throws Exception {
         byte[] b = createChecksum(filename);
