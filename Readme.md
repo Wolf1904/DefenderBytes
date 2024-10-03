@@ -1,6 +1,13 @@
 DefenderBytes Antivirus Scanner
 ===============================
 
+Quality Status
+--------------
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Wolf1904_DefenderBytes)](https://sonarcloud.io/summary/new_code?id=Wolf1904_DefenderBytes)
+
+This badge represents the current code quality status as analyzed by SonarCloud. Click on the badge to view detailed analysis reports and metrics.
+
 Overview
 ---------
 
