@@ -5,19 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-// A class for calculating MD5 hashes of strings, byte arrays, or files.
-// Usage:
-// 1) Feed it blocks of bytes with update()
-// 2) finalize()
-// 3) getHexDigest() to retrieve the digest as a hex string
-// Or use MD5.hash("some_string") or MD5.getMD5Checksum("some_file") for quick results.
 public class MD5 {
 
-    private static final int BLOCK_SIZE = 64; // 64 bytes
-    private static final int[] state = new int[4]; // Digest so far
-    private static final byte[] buffer = new byte[BLOCK_SIZE]; // Bytes that didn't fit in the last 64 byte chunk
-    private static final int[] count = new int[2]; // 64-bit counter for number of bits (low, high)
-    private byte[] digest = new byte[16]; // The final result, removed final
+    private static final int BLOCK_SIZE = 64; 
+    private static final int[] state = new int[4];
+    private static final byte[] buffer = new byte[BLOCK_SIZE];
+    private static final int[] count = new int[2];
+    private byte[] digest = new byte[16];
 
     private boolean finalized;
 
@@ -128,14 +122,17 @@ public class MD5 {
         return (x & y) | (~x & z);
     }
 
+    @SuppressWarnings("unused")
     private static int g(int x, int y, int z) {
         return (x & z) | (y & ~z);
     }
 
+    @SuppressWarnings("unused")
     private static int h(int x, int y, int z) {
         return x ^ y ^ z;
     }
 
+    @SuppressWarnings("unused")
     private static int i(int x, int y, int z) {
         return y ^ (x | ~z);
     }

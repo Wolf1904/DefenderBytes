@@ -21,6 +21,13 @@ public class Source {
     private JTextArea logArea;
     private Set<String> hashSet;
 
+    public String getPathLabelValue() {
+        return pathLabel.getText();
+    }
+    
+    public String getMD5LabelValue() {
+        return labelMD5.getText();
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Source().createAndShowGUI());
     }
@@ -126,7 +133,12 @@ public class Source {
         // Show frame
         mainFrame.setVisible(true);
     }
-    
+
+
+    public void performScan(String filePath, String valueMD5) {
+        // Call the original scanFile method here
+        scanFile(filePath, valueMD5);
+    }    
 
     private void onScan() {
         JFileChooser fileChooser = new JFileChooser();
