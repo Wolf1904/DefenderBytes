@@ -13,6 +13,9 @@ public class Source {
     private static final String STATUS_INFECTED = "Infected";
     private static final String STATUS_CLEAN = "Clean";
     private static final String SCANNING_DONE = "Scanning: Done";
+    private static final String FILES_DETECT = " | Infected Files Detected: ";
+    private static final String FILES_SCANNED = " | Total Files Scanned: ";
+    private static final String INFECTED_PER = " | Infected Percentage: ";
 
     private JLabel pathLabel;
     private JLabel labelMD5;
@@ -20,6 +23,8 @@ public class Source {
     private JLabel scanningLabel;
     private JTextArea logArea;
     private Set<String> hashSet;
+    private int infectedCount = 0;
+    private int totalFilesScanned = 0;
 
     public String getPathLabelValue() {
         return pathLabel.getText();
@@ -160,12 +165,19 @@ public class Source {
     }
 
     private void scanFile(String filePath, String valueMD5) {
+        totalFilesScanned++;
         boolean found = hashSet.contains(valueMD5);
 
         pathLabel.setText("Path: " + filePath);
         labelMD5.setText("MD5: " + valueMD5);
         statusLabel.setText("Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN));
-        scanningLabel.setText(SCANNING_DONE);
+        // scanningLabel.setText(SCANNING_DONE);
+
+        // Increment infectedCount if the file is infected
+        if (found) {
+            infectedCount++;
+            logArea.append("File infected. Incrementing infectedCount to: " + infectedCount + "\n");
+        }
 
         // Log scan details in text area
         logArea.append("File: " + filePath + " | MD5: " + valueMD5 + " | Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN) + "\n");
@@ -174,6 +186,7 @@ public class Source {
     }
 
     private void scanDirectory(Path directoryPath) {
+        infectedCount = 0;
         try {
             Files.walk(directoryPath)
                 .filter(Files::isRegularFile)
@@ -185,13 +198,16 @@ public class Source {
                         e.printStackTrace();
                     }
                 });
-            scanningLabel.setText(SCANNING_DONE);
+            double infectedPercentage = (totalFilesScanned == 0) ? 0 : ((double) infectedCount / totalFilesScanned) * 100;
+            scanningLabel.setText(SCANNING_DONE + FILES_DETECT + infectedCount + FILES_SCANNED + totalFilesScanned + INFECTED_PER + String.format("%.2f", infectedPercentage) + "%");
+            logArea.append("Scanning completed. Infected Files Detected: " + infectedCount + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void scanAll() {
+        infectedCount = 0;
         Path startPath = System.getProperty("os.name").startsWith("Windows") ? Paths.get("C:\\") : Paths.get("/");
         try {
             Files.walk(startPath)
@@ -204,7 +220,9 @@ public class Source {
                         e.printStackTrace();
                     }
                 });
-            scanningLabel.setText(SCANNING_DONE);
+            double infectedPercentage = (totalFilesScanned == 0) ? 0 : ((double) infectedCount / totalFilesScanned) * 100;
+            scanningLabel.setText(SCANNING_DONE + FILES_DETECT + infectedCount + FILES_SCANNED + totalFilesScanned + INFECTED_PER + String.format("%.2f", infectedPercentage) + "%");
+            logArea.append("Full scan completed. Infected Files Detected: " + infectedCount + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
