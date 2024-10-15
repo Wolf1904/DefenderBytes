@@ -42,7 +42,7 @@ jobs:
           curl -L -o lib/asm-tree-9.4.jar https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.4/asm-tree-9.4.jar
           curl -L -o lib/asm-analysis-9.4.jar https://repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.4/asm-analysis-9.4.jar
           curl -L -o lib/asm-util-9.4.jar https://repo1.maven.org/maven2/org/ow2/asm/asm-util/9.4/asm-util-9.4.jar
-          culr -L -o lib/byte-buddy-agent-1.15.2.jar https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy-agent/1.15.2/byte-buddy-agent-1.15.2.jar
+          curl -L -o lib/byte-buddy-agent-1.15.2.jar https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy-agent/1.15.2/byte-buddy-agent-1.15.2.jar
           curl -L -o lib/byte-buddy-1.15.2.jar https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy/1.15.2/byte-buddy-1.15.2.jar
 
 
