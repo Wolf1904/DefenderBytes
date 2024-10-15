@@ -17,14 +17,29 @@ public class Source {
     private static final String FILES_SCANNED = " | Total Files Scanned: ";
     private static final String INFECTED_PER = " | Infected Percentage: ";
 
-    private JLabel pathLabel;
-    private JLabel labelMD5;
-    private JLabel statusLabel;
-    private JLabel scanningLabel;
-    private JTextArea logArea;
+    public JLabel pathLabel;
+    public JLabel labelMD5;
+    public JLabel statusLabel;
+    public JLabel scanningLabel;
+    public JTextArea logArea;
     private Set<String> hashSet;
     private int infectedCount = 0;
     private int totalFilesScanned = 0;
+
+    // Constructor
+    public Source() {
+        // Initialize hashSet in the constructor
+        this.hashSet = loadHashes(HASH_CODES_FILE);
+        initializeUI();
+        logArea = new JTextArea();
+    }
+
+    public void initializeUI() {
+        this.pathLabel = new JLabel();
+        this.labelMD5 = new JLabel();
+        this.statusLabel = new JLabel("Status: N/A");
+        this.scanningLabel = new JLabel("Scanning: ...");
+    }
 
     public String getPathLabelValue() {
         return pathLabel.getText();
@@ -141,6 +156,9 @@ public class Source {
 
 
     public void performScan(String filePath, String valueMD5) {
+        if (logArea != null) {
+            logArea.append("Some log message");
+        }
         // Call the original scanFile method here
         scanFile(filePath, valueMD5);
     }    
@@ -165,6 +183,13 @@ public class Source {
     }
 
     private void scanFile(String filePath, String valueMD5) {
+        // Check if the file exists
+        File file = new File(filePath);
+        if (!file.exists()) {
+            statusLabel.setText("File not found: " + filePath); // Update this line
+            return; // Exit early if the file does not exist
+        }
+
         totalFilesScanned++;
         boolean found = hashSet.contains(valueMD5);
 
@@ -183,6 +208,11 @@ public class Source {
         logArea.append("File: " + filePath + " | MD5: " + valueMD5 + " | Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN) + "\n");
 
         saveScanLogs(filePath, valueMD5, found ? STATUS_INFECTED : STATUS_CLEAN);
+
+        // Update status after scanning file
+        if (totalFilesScanned > 0) {
+            statusLabel.setText("Scan complete."); // Add this line
+        }
     }
 
     private void scanDirectory(Path directoryPath) {
@@ -201,6 +231,11 @@ public class Source {
             double infectedPercentage = (totalFilesScanned == 0) ? 0 : ((double) infectedCount / totalFilesScanned) * 100;
             scanningLabel.setText(SCANNING_DONE + FILES_DETECT + infectedCount + FILES_SCANNED + totalFilesScanned + INFECTED_PER + String.format("%.2f", infectedPercentage) + "%");
             logArea.append("Scanning completed. Infected Files Detected: " + infectedCount + "\n");
+
+            // Update status after scanning directory
+            if (totalFilesScanned > 0) {
+                statusLabel.setText("Scan complete."); // Add this line
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,6 +258,11 @@ public class Source {
             double infectedPercentage = (totalFilesScanned == 0) ? 0 : ((double) infectedCount / totalFilesScanned) * 100;
             scanningLabel.setText(SCANNING_DONE + FILES_DETECT + infectedCount + FILES_SCANNED + totalFilesScanned + INFECTED_PER + String.format("%.2f", infectedPercentage) + "%");
             logArea.append("Full scan completed. Infected Files Detected: " + infectedCount + "\n");
+
+            // Update status after scanning all
+            if (totalFilesScanned > 0) {
+                statusLabel.setText("Scan complete."); // Add this line
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
