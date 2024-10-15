@@ -62,13 +62,13 @@ jobs:
       # Step to generate JaCoCo report
       - name: Generate JaCoCo Report
         run: |
-          java -cp "lib/junit-4.13.2.jar:lib/mockito-core-5.13.0.jar:lib/hamcrest-core-1.3.jar:lib/byte-buddy-1.15.2.jar:lib/byte-buddy-agent-1.15.2.jar:bin" \
-          org.jacoco.cli.internal.Main report target/jacoco.exec \
-          --classfiles bin \
-          --sourcefiles src \
-          --html target/jacoco-html \
-          --xml target/jacoco.xml \
-          --csv target/jacoco.csv
+          java -cp "lib/junit-4.13.2.jar:lib/mockito-core-5.13.0.jar:lib/hamcrest-core-1.3.jar:lib/byte-buddy-1.15.2.jar:lib/byte-buddy-agent-1.15.2.jar:lib/org.jacoco.cli-0.8.12.jar:bin" \
+            org.jacoco.cli.internal.Main report target/jacoco.exec \
+            --classfiles bin \
+            --sourcefiles src \
+            --html target/jacoco-html \
+            --xml target/jacoco.xml \
+            --csv target/jacoco.csv
 
       # Step to run SonarCloud scan
       - name: SonarCloud Scan
