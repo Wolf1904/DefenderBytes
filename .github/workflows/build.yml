@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-    
+
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for better analysis relevancy
-      
+
       # Step to set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -31,6 +31,7 @@ jobs:
           mkdir -p lib
           curl -L -o lib/junit-4.13.2.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
           curl -L -o lib/hamcrest-core-1.3.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+          curl -L -o lib/mockito-core-5.13.0.jar https://search.maven.org/remotecontent?filepath=org/mockito/mockito-core/5.13.0/mockito-core-5.13.0.jar
           curl -L -o lib/org.jacoco.agent-0.8.12-runtime.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar
           curl -L -o lib/org.jacoco.cli-0.8.12.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.12/org.jacoco.cli-0.8.12.jar
           curl -L -o lib/org.jacoco.core-0.8.12.jar https://repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.12/org.jacoco.core-0.8.12.jar
@@ -44,19 +45,20 @@ jobs:
 
       # Step to compile Java files
       - name: Compile Java files
-        run: javac -d bin -cp lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar $(find src -name "*.java")
+        run: |
+          javac -d bin -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:lib/mockito-core-5.13.0.jar" $(find src -name "*.java")
 
       # Step to run tests with JaCoCo
       - name: Run Tests with JaCoCo
         run: |
           java -javaagent:lib/org.jacoco.agent-0.8.12-runtime.jar=destfile=target/jacoco.exec \
-          -cp lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:bin org.junit.runner.JUnitCore com.turbotrove.MainTest
+          -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:lib/mockito-core-5.13.0.jar:bin" org.junit.runner.JUnitCore com.defenderbytes.SourceMD5Test
         continue-on-error: true
 
       # Step to generate JaCoCo report
       - name: Generate JaCoCo Report
         run: |
-          java -cp lib/org.jacoco.cli-0.8.12.jar:lib/org.jacoco.core-0.8.12.jar:lib/org.jacoco.report-0.8.12.jar:lib/args4j-2.33.jar:lib/asm-9.4.jar:lib/asm-commons-9.4.jar:lib/asm-tree-9.4.jar:lib/asm-analysis-9.4.jar:lib/asm-util-9.4.jar:bin \
+          java -cp "lib/org.jacoco.cli-0.8.12.jar:lib/org.jacoco.core-0.8.12.jar:lib/org.jacoco.report-0.8.12.jar:lib/args4j-2.33.jar:lib/asm-9.4.jar:lib/asm-commons-9.4.jar:lib/asm-tree-9.4.jar:lib/asm-analysis-9.4.jar:lib/asm-util-9.4.jar:bin" \
           org.jacoco.cli.internal.Main report target/jacoco.exec \
           --classfiles bin \
           --sourcefiles src \
