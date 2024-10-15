@@ -52,7 +52,8 @@ jobs:
       - name: Run Tests with JaCoCo
         run: |
           java -javaagent:lib/org.jacoco.agent-0.8.12-runtime.jar=destfile=target/jacoco.exec \
-          -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:lib/mockito-core-5.13.0.jar:bin" org.junit.runner.JUnitCore com.defenderbytes.SourceMD5Test
+          -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:lib/mockito-core-5.13.0.jar:bin" \
+          org.junit.runner.JUnitCore test.java.com.defenderbytes.SourceMD5Test
         continue-on-error: true
 
       # Step to generate JaCoCo report
