@@ -13,6 +13,7 @@ public class Source {
     private static final String STATUS_INFECTED = "Infected";
     private static final String STATUS_CLEAN = "Clean";
     private static final String SCANNING_DONE = "Scanning: Done";
+    private static final String SCAN_COMP = "Scan complete.";
     private static final String FILES_DETECT = " | Infected Files Detected: ";
     private static final String FILES_SCANNED = " | Total Files Scanned: ";
     private static final String INFECTED_PER = " | Infected Percentage: ";
@@ -210,7 +211,7 @@ public class Source {
 
         // Update status after scanning file
         if (totalFilesScanned > 0) {
-            statusLabel.setText("Scan complete."); // Add this line
+            statusLabel.setText(SCAN_COMP); // Add this line
         }
     }
 
@@ -233,7 +234,7 @@ public class Source {
 
             // Update status after scanning directory
             if (totalFilesScanned > 0) {
-                statusLabel.setText("Scan complete."); // Add this line
+                statusLabel.setText(SCAN_COMP); // Add this line
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -260,7 +261,7 @@ public class Source {
 
             // Update status after scanning all
             if (totalFilesScanned > 0) {
-                statusLabel.setText("Scan complete."); // Add this line
+                statusLabel.setText(SCAN_COMP); // Add this line
             }
         } catch (IOException e) {
             e.printStackTrace();
