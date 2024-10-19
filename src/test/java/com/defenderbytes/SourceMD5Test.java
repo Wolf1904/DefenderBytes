@@ -188,16 +188,22 @@ public class SourceMD5Test {
     public void testEmptyFile() throws Exception {
         String emptyFilePath = "test_files/empty_file.txt";
         File emptyFile = new File(emptyFilePath);
-        emptyFile.createNewFile();  // Create an empty file
+        try {
+            boolean fileCreated = emptyFile.createNewFile();  // Create an empty file
+            assertTrue("Failed to create empty file: " + emptyFilePath, fileCreated);
+            
+            // Perform scan on the empty file
+            String emptyFileMD5 = MD5.getMD5Checksum(emptyFilePath);
+            source.performScan(emptyFilePath, emptyFileMD5);
 
-        // Perform scan on the empty file
-        source.performScan(emptyFilePath, MD5.getMD5Checksum(emptyFilePath));
+            // Verify label updates for an empty file
+            verify(source.pathLabel).setText("Path: " + emptyFilePath);
+            verify(source.labelMD5).setText("MD5: " + emptyFileMD5);
 
-        // Verify label updates for an empty file
-        verify(source.pathLabel).setText("Path: " + emptyFilePath);
-        verify(source.labelMD5).setText("MD5: " + MD5.getMD5Checksum(emptyFilePath));
-
-        // Cleanup the empty file
-        emptyFile.delete();
+        } finally {
+            // Cleanup the empty file
+            boolean fileDeleted = emptyFile.delete();
+            assertTrue("Failed to delete empty file: " + emptyFilePath, fileDeleted);
+        }
     }
 }
