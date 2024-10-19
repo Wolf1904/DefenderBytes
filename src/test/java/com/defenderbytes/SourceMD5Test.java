@@ -22,6 +22,9 @@ import static org.mockito.Mockito.*;
 
 public class SourceMD5Test {
 
+    private static final String PATH = "Path: ";
+    private static final String MD5_STRING = "MD5: ";
+
     private Source source;
     private String testFilePath;
     private String testMD5;
@@ -89,8 +92,8 @@ public class SourceMD5Test {
         verify(source).performScan(testFilePath, testMD5);
 
         // Verify label updates after scan
-        verify(source.pathLabel).setText("Path: " + testFilePath);
-        verify(source.labelMD5).setText("MD5: " + testMD5);
+        verify(source.pathLabel).setText(PATH + testFilePath);
+        verify(source.labelMD5).setText(MD5_STRING + testMD5);
         verify(source.statusLabel).setText("Scan complete.");
     }
 
@@ -116,8 +119,8 @@ public class SourceMD5Test {
         source.performScan(testFilePath, testMD5);  // Perform the file scan
 
         // Verify label updates after scan
-        verify(source.pathLabel).setText("Path: " + testFilePath);
-        verify(source.labelMD5).setText("MD5: " + testMD5);
+        verify(source.pathLabel).setText(PATH + testFilePath);
+        verify(source.labelMD5).setText(MD5_STRING + testMD5);
     }
 
     @Ignore("Skipping this test because the file may not exist.")
@@ -143,8 +146,8 @@ public class SourceMD5Test {
         verify(mockScanButton, times(1)).doClick();
 
         // Verify label updates after button action
-        assertEquals("Path: " + testFilePath, source.pathLabel.getText());
-        assertEquals("MD5: " + testMD5, source.labelMD5.getText());
+        assertEquals(PATH + testFilePath, source.pathLabel.getText());
+        assertEquals(MD5_STRING + testMD5, source.labelMD5.getText());
     }
 
     // MD5 class related test cases
@@ -197,8 +200,8 @@ public class SourceMD5Test {
             source.performScan(emptyFilePath, emptyFileMD5);
 
             // Verify label updates for an empty file
-            verify(source.pathLabel).setText("Path: " + emptyFilePath);
-            verify(source.labelMD5).setText("MD5: " + emptyFileMD5);
+            verify(source.pathLabel).setText(PATH + emptyFilePath);
+            verify(source.labelMD5).setText(MD5_STRING + emptyFileMD5);
 
         } finally {
             // Cleanup the empty file
