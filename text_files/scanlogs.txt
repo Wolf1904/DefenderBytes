@@ -76,3 +76,6 @@ test_files/testfile.txt c9ff247184df18e4cf2127b2286b9581 Clean
 test_files/testfile.txt c9ff247184df18e4cf2127b2286b9581 Clean
 test_files/empty_file.txt d41d8cd98f00b204e9800998ecf8427e Clean
 test_files/testfile.txt c9ff247184df18e4cf2127b2286b9581 Clean
+test_files/testfile.txt c9ff247184df18e4cf2127b2286b9581 Clean
+test_files/empty_file.txt d41d8cd98f00b204e9800998ecf8427e Clean
+test_files/testfile.txt c9ff247184df18e4cf2127b2286b9581 Clean

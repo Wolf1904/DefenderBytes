@@ -196,7 +196,6 @@ public class Source {
         pathLabel.setText("Path: " + filePath);
         labelMD5.setText("MD5: " + valueMD5);
         statusLabel.setText("Status: " + (found ? STATUS_INFECTED : STATUS_CLEAN));
-        // scanningLabel.setText(SCANNING_DONE);
 
         // Increment infectedCount if the file is infected
         if (found) {

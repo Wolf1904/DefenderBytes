@@ -111,11 +111,6 @@ public class SourceMD5Test {
     // Test scanFile method behavior using mocked labels and verify updates
     @Test
     public void testScanFile() {
-        // JLabel mockPathLabel = mock(JLabel.class);
-        // JLabel mockMD5Label = mock(JLabel.class);
-
-        // // Replace real labels with mocked ones
-        // source = Mockito.spy(new Source());
         source.performScan(testFilePath, testMD5);  // Perform the file scan
 
         // Verify label updates after scan
@@ -130,9 +125,6 @@ public class SourceMD5Test {
         JButton mockScanButton = mock(JButton.class);
         @SuppressWarnings("unused")
         ActionEvent mockEvent = new ActionEvent(mockScanButton, ActionEvent.ACTION_PERFORMED, "scan");
-
-        // // Simulate button click event
-        // doNothing().when(mockScanButton).doClick();
 
         // Simulate button click event and trigger the action
         doAnswer(invocation -> {
