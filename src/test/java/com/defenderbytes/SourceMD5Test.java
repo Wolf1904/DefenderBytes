@@ -118,6 +118,7 @@ public class SourceMD5Test {
         verify(source.labelMD5).setText(MD5_STRING + testMD5);
     }
 
+    @SuppressWarnings("unused")
     @Ignore("Skipping this test because the file may not exist.")
     // Test UI buttons using mocked JButton and ensure proper action handling
     @Test
