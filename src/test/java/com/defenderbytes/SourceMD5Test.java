@@ -124,7 +124,6 @@ public class SourceMD5Test {
     @Test
     public void testUIButtons() throws Exception {
         JButton mockScanButton = mock(JButton.class);
-        @SuppressWarnings("unused")
         ActionEvent mockEvent = new ActionEvent(mockScanButton, ActionEvent.ACTION_PERFORMED, "scan");
 
         // Simulate button click event and trigger the action
