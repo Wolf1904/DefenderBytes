@@ -1,23 +1,46 @@
-# cloudbuild.yml
 steps:
-    # Step to trigger GitHub Actions workflow
-    - name: 'curlimages/curl:7.85.0'
-      id: 'Trigger GitHub Actions Workflow'
-      entrypoint: 'curl'
-      args:
-        - '-X'
-        - 'POST'
-        - '-H'
-        - 'Accept: application/vnd.github+json'
-        - '-H'
-        - 'Authorization: Bearer ${_GITHUB_TOKEN}'
-        - 'https://api.github.com/repos/Wolf1904/DefenderBytes/actions/workflows/build.yml/dispatches'
-        - '-d'
-        - |
-          {
-            "ref": "main"
-          }
-            
-    substitutions:
-        _GITHUB_TOKEN: 'GIT_TOKEN'
-  
+  # Step to trigger GitHub Actions workflow
+  - name: 'curlimages/curl:7.85.0'
+    id: 'Trigger GitHub Actions Workflow'
+    entrypoint: 'curl'
+    args:
+      - '-X'
+      - 'POST'
+      - '-H'
+      - 'Accept: application/vnd.github+json'
+      - '-H'
+      - 'Authorization: Bearer ${_GITHUB_TOKEN}'
+      - 'https://api.github.com/repos/Wolf1904/DefenderBytes/actions/workflows/build.yml/dispatches'
+      - '-d'
+      - |
+        {
+          "ref": "main"
+        }
+  # Additional step to handle potential errors
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Handle Errors'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ $? -ne 0 ]; then
+          echo "Error triggering GitHub Actions workflow"
+          exit 1
+        fi
+  # Additional step to handle success
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Handle Success'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ $? -eq 0 ]; then
+          echo "GitHub Actions workflow triggered successfully"
+        fi
+  - substitutions:
+    _GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+   
+  options:
+    retry:
+      count: 2
+      condition: 'status=FAILURE'
